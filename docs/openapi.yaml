@@ -1,0 +1,335 @@
+openapi: 3.0.3
+info:
+  title: Stockroom Operations & Inventory Management API
+  version: 1.0.0
+  description: |
+    Secure, auditable API for e-commerce operations, inventory control, order management,
+    payment reconciliation, and staff access control.
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Local Development Server
+
+paths:
+  /auth/login:
+    post:
+      summary: Staff login
+      description: Authenticates staff credentials, establishes tenant session, and returns JWT token.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string, format: email }
+                password: { type: string }
+                organizationSlug: { type: string }
+      responses:
+        '200':
+          description: Successfully authenticated
+        '401':
+          description: Invalid credentials
+
+  /auth/me:
+    get:
+      summary: Get current authenticated staff context
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Returns staff user, active organization, current store, and granular permissions.
+
+  /products:
+    get:
+      summary: List catalog products
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: query
+          name: status
+          schema: { type: string, enum: [draft, active, archived] }
+        - in: query
+          name: search
+          schema: { type: string }
+        - in: query
+          name: limit
+          schema: { type: integer, default: 50 }
+      responses:
+        '200':
+          description: List of products with sellable variants
+
+    post:
+      summary: Create product
+      security:
+        - BearerAuth: []
+      description: Requires 'canManageCatalog' permission.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, slug]
+              properties:
+                name: { type: string }
+                slug: { type: string }
+                brand: { type: string }
+                description: { type: string }
+                status: { type: string, enum: [draft, active, archived] }
+      responses:
+        '201':
+          description: Product created
+
+  /products/{productId}:
+    get:
+      summary: Get product details with variants, prices, and stock balances
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Product details
+
+    patch:
+      summary: Update product details
+      security:
+        - BearerAuth: []
+      description: Requires 'canManageCatalog' permission.
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Product updated
+
+  /products/{productId}/variants:
+    post:
+      summary: Create sellable variant
+      security:
+        - BearerAuth: []
+      description: Requires 'canManageCatalog' permission. Enforces SKU uniqueness within organization.
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [sku]
+              properties:
+                sku: { type: string }
+                barcode: { type: string }
+                unitOfMeasure: { type: string }
+                variantAttributes: { type: object }
+                price:
+                  type: object
+                  required: [storeId, currency, amountMinor]
+                  properties:
+                    storeId: { type: string }
+                    currency: { type: string }
+                    amountMinor: { type: integer, description: "Monetary amount in exact minor units (e.g. 12900 = $129.00)" }
+      responses:
+        '201':
+          description: Variant created
+
+  /inventory:
+    get:
+      summary: Query current inventory balances
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: query
+          name: locationId
+          schema: { type: string }
+        - in: query
+          name: variantId
+          schema: { type: string }
+        - in: query
+          name: lowStock
+          schema: { type: boolean }
+      responses:
+        '200':
+          description: Inventory balances showing onHand, reserved, and available stock
+
+  /inventory/receipts:
+    post:
+      summary: Record stock receipt
+      security:
+        - BearerAuth: []
+      description: Requires 'canReceiveStock' permission. Idempotent via x-idempotency-key.
+      parameters:
+        - in: header
+          name: x-idempotency-key
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [locationId, variantId, quantity]
+              properties:
+                locationId: { type: string }
+                variantId: { type: string }
+                quantity: { type: integer, minimum: 1 }
+                reason: { type: string }
+      responses:
+        '201':
+          description: Stock received and balance updated
+
+  /inventory/adjustments:
+    post:
+      summary: Record inventory adjustment
+      security:
+        - BearerAuth: []
+      description: Requires 'canAdjustInventory' permission and non-empty reason.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [locationId, variantId, quantityDelta, reason]
+              properties:
+                locationId: { type: string }
+                variantId: { type: string }
+                quantityDelta: { type: integer }
+                reason: { type: string }
+      responses:
+        '201':
+          description: Adjustment recorded
+
+  /inventory/reconciliation:
+    post:
+      summary: Reconcile inventory balances with movement ledger
+      security:
+        - BearerAuth: []
+      description: Requires 'canAdjustInventory' permission. Compares operational balance with ledger sum and flags discrepancies.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [locationId, variantId]
+              properties:
+                locationId: { type: string }
+                variantId: { type: string }
+                repair: { type: boolean }
+                reason: { type: string }
+      responses:
+        '200':
+          description: Reconciliation report or repair confirmation
+
+  /orders:
+    get:
+      summary: List orders
+      security:
+        - BearerAuth: []
+      description: Requires 'canViewOrder' permission.
+      responses:
+        '200':
+          description: List of orders with line snapshots
+
+    post:
+      summary: Create order
+      security:
+        - BearerAuth: []
+      description: Calculates totals using exact arithmetic, snapshots lines, and atomically reserves inventory.
+      parameters:
+        - in: header
+          name: x-idempotency-key
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [storeId, locationId, customerReference, lines]
+              properties:
+                storeId: { type: string }
+                locationId: { type: string }
+                customerReference: { type: string }
+                shippingMinor: { type: integer }
+                lines:
+                  type: array
+                  items:
+                    type: object
+                    required: [variantId, quantity]
+                    properties:
+                      variantId: { type: string }
+                      quantity: { type: integer, minimum: 1 }
+      responses:
+        '201':
+          description: Order created with atomic stock reservation
+
+  /orders/{orderId}/cancel:
+    post:
+      summary: Cancel order
+      security:
+        - BearerAuth: []
+      description: Requires 'canCancelOrder' permission. Releases reserved unshipped stock exactly once.
+      parameters:
+        - in: path
+          name: orderId
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [locationId, reason]
+              properties:
+                locationId: { type: string }
+                reason: { type: string }
+      responses:
+        '200':
+          description: Order cancelled and reservations released
+
+  /webhooks/payments/{provider}:
+    post:
+      summary: Receive payment provider webhook
+      description: Authenticates via provider HMAC signature header and deduplicates eventId.
+      parameters:
+        - in: path
+          name: provider
+          required: true
+          schema: { type: string }
+        - in: header
+          name: x-provider-signature
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Event processed or duplicate ignored
+
+  /reports/operations:
+    get:
+      summary: Operational KPI summary
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Real operational metrics (orders requiring action, low stock items, pending payments, exceptions)
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
