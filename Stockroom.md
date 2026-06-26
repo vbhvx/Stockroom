@@ -34,3 +34,32 @@ The finished application must allow authorized staff to:
 
 Build an internal operations platform first. A complete public storefront, marketing website, recommendation engine, advanced pricing engine, and marketplace architecture are not required for the initial release.
 
+### 2.1 Core modules
+
+| Module | Main responsibility |
+|---|---|
+| Catalog | Manage products, variants, SKUs, and product status |
+| Inventory | Track on-hand, reserved, and available stock |
+| Orders | Manage order records, line items, and lifecycle transitions |
+| Payments | Track payment attempts, provider events, and refunds |
+| Fulfillment | Coordinate picking, packing, shipping, and dispatch |
+| Staff and access | Authenticate staff and enforce role-based permissions |
+| Audit history | Record important operational changes |
+| Reporting | Provide operational summaries and exception visibility |
+| Integrations | Connect external services through explicit provider adapters |
+
+### 2.2 Initial assumptions
+
+The implementation should use the following initial assumptions unless the existing product requirements specify otherwise:
+
+- The application serves one or more merchant organizations.
+- An organization may manage one or more stores.
+- Products can have variants, with each sellable variant represented by a unique SKU within the applicable catalog scope.
+- Inventory can be tracked by warehouse or stock location.
+- Orders may originate from the application's internal workflow or an explicitly implemented integration.
+- Payment processing is delegated to a supported payment provider.
+- Staff access is restricted by organization, store, and operational role as applicable.
+- Development environments may use clearly labeled test data and simulated provider responses.
+
+Do not claim to support a specific commerce platform, payment gateway, shipping carrier, or accounting service until its adapter is actually implemented and verified.
+
