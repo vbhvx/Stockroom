@@ -63,3 +63,71 @@ The implementation should use the following initial assumptions unless the exist
 
 Do not claim to support a specific commerce platform, payment gateway, shipping carrier, or accounting service until its adapter is actually implemented and verified.
 
+## 3. System Architecture
+
+Use a modular, TypeScript-first application architecture with a relational database as the source of truth for internal operational state.
+
+```text
+Staff Dashboard / Authorized API Client
+                  |
+                  v
+        Authentication and Sessions
+                  |
+                  v
+       Authorization and Tenant Scope
+                  |
+                  v
+        Input Validation and API Layer
+                  |
+                  v
+          Application Services
+                  |
+       +----------+-----------+
+       |          |           |
+       v          v           v
+    Catalog   Inventory     Orders
+                  |           |
+                  v           v
+             Stock Ledger  Payments
+                  |           |
+                  +-----+-----+
+                        |
+                        v
+                  Fulfillment
+                        |
+                        v
+                 PostgreSQL
+                        |
+              +---------+---------+
+              |                   |
+              v                   v
+        Audit / Outbox      Reconciliation
+              |                   |
+              v                   v
+       Events / Workers     Exception Reports
+              |
+              v
+    External Provider Adapters
+    Payment / Shipping / Commerce
+```
+
+### Architectural responsibilities
+
+**Frontend:** Presents operational workflows, captures staff actions, communicates save and processing states, and displays errors and exceptions.
+
+**API layer:** Authenticates requests, validates input, scopes requests to the correct organization and store, and enforces consistent API contracts.
+
+**Application services:** Implement business rules for catalog changes, reservations, order transitions, payment updates, fulfillment, and refunds.
+
+**Database:** Stores the authoritative catalog, inventory state, order records, payment records, and operational history.
+
+**Inventory ledger:** Records stock movements in an append-oriented history so current inventory can be explained and reconciled.
+
+**Provider adapters:** Translate provider-specific requests and events into the application's internal contracts.
+
+**Background workers:** Process retryable operations, notifications, integration events, and reconciliation jobs.
+
+**Audit and outbox:** Preserve evidence of important changes and support reliable publication of events after database transactions commit.
+
+Keep business logic independent of frontend components and specific third-party providers. A payment provider outage must not make the catalog unreadable or prevent staff from inspecting existing order records.
+
