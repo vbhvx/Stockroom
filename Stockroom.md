@@ -131,3 +131,30 @@ Staff Dashboard / Authorized API Client
 
 Keep business logic independent of frontend components and specific third-party providers. A payment provider outage must not make the catalog unreadable or prevent staff from inspecting existing order records.
 
+## 4. Recommended Technical Stack
+
+| Layer | Recommended technology |
+|---|---|
+| Frontend | Next.js, React, TypeScript |
+| Styling | Tailwind CSS and accessible UI primitives |
+| Backend | Next.js route handlers or a dedicated Node.js API |
+| Database | PostgreSQL |
+| ORM | Drizzle ORM or Prisma |
+| Validation | Zod or an equivalent runtime schema validator |
+| Authentication | Maintained authentication and session library |
+| API documentation | OpenAPI 3.x |
+| Background jobs | Queue and worker system where asynchronous processing is justified |
+| Testing | Vitest or Jest, with HTTP integration tests |
+| End-to-end testing | Playwright |
+| API testing | Postman or automated API contract tests |
+| Deployment | Supported application hosting with managed PostgreSQL |
+| Observability | Structured logs, request IDs, operational metrics, and health checks |
+
+Choose one primary ORM and one backend architecture. Do not introduce separate services, brokers, or databases without a concrete reliability or scaling requirement.
+
+The initial release can run as a modular monolith with PostgreSQL transactions and a background worker. This is generally easier to test and operate than prematurely distributing the core business rules across multiple services.
+
+## 5. Domain Model and Data Integrity
+
+The application must model commerce entities explicitly instead of keeping only the latest status or quantity in loosely related tables.
+
