@@ -158,3 +158,56 @@ The initial release can run as a modular monolith with PostgreSQL transactions a
 
 The application must model commerce entities explicitly instead of keeping only the latest status or quantity in loosely related tables.
 
+### 5.1 Organization and store
+
+**Organization**
+
+- `id`
+- `name`
+- `slug`
+- `createdAt`
+- `updatedAt`
+
+**Store**
+
+- `id`
+- `organizationId`
+- `name`
+- `currency`
+- `timezone`
+- `status`
+- `createdAt`
+- `updatedAt`
+
+Use organization and store scopes consistently throughout the application.
+
+A staff member's access to one store must not automatically grant access to every store unless the permission policy explicitly allows it.
+
+Currency should be stored using a standardized currency code. Do not use floating-point numbers for monetary amounts.
+
+### 5.2 Staff user and membership
+
+**User**
+
+- `id`
+- `email`
+- `name`
+- Authentication identity reference
+- `createdAt`
+- `updatedAt`
+
+**StaffMembership**
+
+- `id`
+- `organizationId`
+- `storeId`, where applicable
+- `userId`
+- `role`
+- `status`
+- `createdAt`
+- `updatedAt`
+
+Enforce uniqueness for the relevant membership scope.
+
+Access must be determined from the authenticated identity and current membership. A role or organization ID supplied by a client is never proof of authorization.
+
