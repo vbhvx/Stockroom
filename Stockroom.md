@@ -211,3 +211,65 @@ Enforce uniqueness for the relevant membership scope.
 
 Access must be determined from the authenticated identity and current membership. A role or organization ID supplied by a client is never proof of authorization.
 
+### 5.3 Product
+
+**Product**
+
+- `id`
+- `organizationId`
+- `name`
+- `slug`
+- `description`
+- `brand`
+- `status`
+- `createdAt`
+- `updatedAt`
+- `archivedAt`
+
+Recommended product statuses:
+
+`draft`, `active`, `archived`
+
+The application's internal product status should not automatically imply that an item is available for sale through an external storefront. Publishing and sales-channel availability should be modeled separately if required.
+
+### 5.4 Product variant and SKU
+
+**ProductVariant**
+
+- `id`
+- `organizationId`
+- `productId`
+- `sku`
+- `barcode`
+- `variantAttributes`
+- `unitOfMeasure`
+- `weight`
+- `status`
+- `createdAt`
+- `updatedAt`
+
+A product may have multiple variants, such as different sizes or colors. Each independently stocked variant should have its own SKU.
+
+Enforce SKU uniqueness within the relevant merchant or catalog scope.
+
+Validate variant attributes and prevent duplicate variants where the product configuration requires uniqueness.
+
+### 5.5 Product price
+
+**ProductPrice**
+
+- `id`
+- `storeId`
+- `variantId`
+- `currency`
+- `amountMinor`
+- `effectiveFrom`
+- `effectiveTo`
+- `createdAt`
+
+Represent money using integer minor units or another exact decimal representation. For example, a price of 1,299.00 in a two-decimal currency can be represented as 129,900 minor units.
+
+Do not assume that every currency uses two decimal places. Use currency-aware formatting and a documented amount representation.
+
+Store the applicable price and currency snapshot on each order line so historical orders remain interpretable after a product's price changes.
+
