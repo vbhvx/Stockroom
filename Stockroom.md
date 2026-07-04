@@ -273,3 +273,47 @@ Do not assume that every currency uses two decimal places. Use currency-aware fo
 
 Store the applicable price and currency snapshot on each order line so historical orders remain interpretable after a product's price changes.
 
+### 5.6 Inventory location
+
+**InventoryLocation**
+
+- `id`
+- `organizationId`
+- `storeId`
+- `name`
+- `locationCode`
+- `status`
+- `createdAt`
+- `updatedAt`
+
+A location may represent a warehouse, stockroom, fulfillment center, or another defined stock-holding area.
+
+The initial release can support one location while retaining a data model that can represent more than one.
+
+### 5.7 Inventory balance
+
+**InventoryBalance**
+
+- `id`
+- `organizationId`
+- `locationId`
+- `variantId`
+- `onHand`
+- `reserved`
+- `version`
+- `updatedAt`
+
+Enforce uniqueness on the applicable `(locationId, variantId)` pair.
+
+Maintain nonnegative quantities for inventory operations unless the product explicitly supports backorders or negative stock.
+
+Calculate available stock using a documented invariant:
+
+\[
+\text{Available} = \text{On Hand} - \text{Reserved}
+\]
+
+The inventory ledger is the historical record of movements, while the balance is the operational state optimized for current availability checks.
+
+The two must be reconcilable.
+
