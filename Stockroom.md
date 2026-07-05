@@ -380,3 +380,46 @@ Use a unique order number within the applicable store or organization scope.
 
 An order should preserve the relevant commercial information as it existed when the order was placed or imported.
 
+### 5.10 Order line
+
+**OrderLine**
+
+- `id`
+- `orderId`
+- `variantId`
+- `skuSnapshot`
+- `productNameSnapshot`
+- `quantityOrdered`
+- `unitPriceMinor`
+- `discountMinor`
+- `taxMinor`
+- `lineTotalMinor`
+- `createdAt`
+
+The snapshot fields preserve historical order information even if the catalog later changes.
+
+For orders that support partial fulfillment, track quantities fulfilled, canceled, or otherwise resolved through explicit records or well-defined aggregate fields.
+
+Validate that line quantities are positive and that all arithmetic uses exact monetary representations.
+
+### 5.11 Payment
+
+**Payment**
+
+- `id`
+- `organizationId`
+- `orderId`
+- `provider`
+- `providerPaymentId`
+- `paymentStatus`
+- `currency`
+- `authorizedAmountMinor`
+- `capturedAmountMinor`
+- `refundedAmountMinor`
+- `createdAt`
+- `updatedAt`
+
+An order may have more than one payment attempt or payment record, depending on the supported workflow.
+
+Do not store raw card numbers, security codes, or other prohibited payment credentials in application tables or logs.
+
