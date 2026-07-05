@@ -317,3 +317,66 @@ The inventory ledger is the historical record of movements, while the balance is
 
 The two must be reconcilable.
 
+### 5.8 Inventory movement ledger
+
+**InventoryMovement**
+
+- `id`
+- `organizationId`
+- `locationId`
+- `variantId`
+- `movementType`
+- `quantityDelta`
+- `referenceType`
+- `referenceId`
+- `reason`
+- `actorId`
+- `idempotencyKey`
+- `createdAt`
+
+Possible movement types include:
+
+- `receipt`
+- `reservation`
+- `reservation_release`
+- `shipment`
+- `adjustment`
+- `return`
+- `transfer_in`
+- `transfer_out`
+- `correction`
+
+Use movement-specific validation so each operation has an unambiguous interpretation. A reservation may change reserved quantity without changing on-hand quantity, whereas shipping normally reduces both on-hand and reserved quantities for the corresponding allocation.
+
+Do not treat all movement types as identical quantity subtraction.
+
+The exact calculation depends on the movement's business meaning. Document the invariants for every supported movement type.
+
+Do not ordinarily edit or delete historical movements to correct a stock error. Record an auditable compensating movement.
+
+### 5.9 Order
+
+**Order**
+
+- `id`
+- `organizationId`
+- `storeId`
+- `orderNumber`
+- `source`
+- `orderStatus`
+- `currency`
+- `subtotalMinor`
+- `discountMinor`
+- `taxMinor`
+- `shippingMinor`
+- `totalMinor`
+- `customerReference`
+- `idempotencyKey`
+- `createdAt`
+- `updatedAt`
+- `cancelledAt`
+
+Use a unique order number within the applicable store or organization scope.
+
+An order should preserve the relevant commercial information as it existed when the order was placed or imported.
+
