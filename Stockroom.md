@@ -470,3 +470,39 @@ Enforce amount and currency constraints and prevent duplicate successful refunds
 
 Support partial fulfillment when required, ensuring that the total allocated quantities cannot exceed the quantities that are eligible to be fulfilled.
 
+### 5.14 Audit event
+
+**AuditEvent**
+
+- `id`
+- `organizationId`
+- `storeId`
+- `actorId`
+- `action`
+- `resourceType`
+- `resourceId`
+- `beforeState`
+- `afterState`
+- `reason`
+- `requestId`
+- `createdAt`
+
+Record important business changes, including inventory adjustments, product changes, cancellations, refunds, staff permission changes, and fulfillment transitions.
+
+Audit history should not contain payment credentials, session tokens, or unnecessary sensitive personal information.
+
+### 5.15 Constraints and indexes
+
+Implement:
+
+- Foreign-key constraints
+- Unique SKU and order-number constraints
+- Unique provider event IDs within their applicable scope
+- Unique idempotency keys where required
+- Nonnegative quantity constraints where applicable
+- Monetary amount and currency validation
+- Indexes on common lookup and filtering fields
+- Transactional updates for related operational records
+
+Use database constraints as an additional protection layer, not as a substitute for business-level validation.
+
