@@ -423,3 +423,50 @@ An order may have more than one payment attempt or payment record, depending on 
 
 Do not store raw card numbers, security codes, or other prohibited payment credentials in application tables or logs.
 
+### 5.12 Refund
+
+**Refund**
+
+- `id`
+- `organizationId`
+- `paymentId`
+- `providerRefundId`
+- `idempotencyKey`
+- `amountMinor`
+- `currency`
+- `status`
+- `reason`
+- `requestedBy`
+- `createdAt`
+- `updatedAt`
+
+The provider's actual refund result must be tracked separately from the original refund request.
+
+Enforce amount and currency constraints and prevent duplicate successful refunds for the same logical request.
+
+### 5.13 Fulfillment
+
+**Fulfillment**
+
+- `id`
+- `organizationId`
+- `orderId`
+- `locationId`
+- `status`
+- `carrier`
+- `trackingNumber`
+- `shippedAt`
+- `deliveredAt`
+- `createdAt`
+- `updatedAt`
+
+**FulfillmentLine**
+
+- `id`
+- `fulfillmentId`
+- `orderLineId`
+- `quantity`
+- `createdAt`
+
+Support partial fulfillment when required, ensuring that the total allocated quantities cannot exceed the quantities that are eligible to be fulfilled.
+
