@@ -506,3 +506,27 @@ Implement:
 
 Use database constraints as an additional protection layer, not as a substitute for business-level validation.
 
+## 6. Catalog Management
+
+### 6.1 Product lifecycle
+
+Implement the following basic operations:
+
+- Create a product.
+- Edit product information.
+- Add, edit, and deactivate variants.
+- Manage SKU and barcode information.
+- Set prices by store or supported price scope.
+- Search and filter the catalog.
+- Archive products.
+- View product history where appropriate.
+
+### 6.2 Catalog rules
+
+- A SKU must identify the relevant sellable variant uniquely within its defined scope.
+- A product with active inventory must not be deleted in a way that breaks inventory history or existing orders.
+- Historical order lines must retain their product and pricing snapshots.
+- Archiving a product must not remove its past order or stock movement records.
+- Product status changes must not implicitly adjust inventory.
+- Price changes must not silently rewrite historical order totals.
+
