@@ -530,3 +530,17 @@ Implement the following basic operations:
 - Product status changes must not implicitly adjust inventory.
 - Price changes must not silently rewrite historical order totals.
 
+### 6.3 Bulk operations
+
+Bulk import and export may be included as a practical operational feature.
+
+If implemented, validate each row and produce an actionable import report containing success counts, rejected rows, and validation errors.
+
+Use a preview-and-confirm flow for destructive or large-scale catalog changes. Bulk operations must follow the same permission checks and audit rules as individual changes.
+
+Do not silently accept conflicting SKUs or partially apply a large import without reporting the resulting state.
+
+## 7. Inventory Control and Stock Accuracy
+
+Inventory correctness is one of the platform's primary acceptance criteria.
+
