@@ -544,3 +544,29 @@ Do not silently accept conflicting SKUs or partially apply a large import withou
 
 Inventory correctness is one of the platform's primary acceptance criteria.
 
+### 7.1 Inventory quantities
+
+Maintain explicit definitions:
+
+- **On hand:** Quantity physically recorded at the location.
+- **Reserved:** Quantity allocated to eligible orders but not yet shipped.
+- **Available:** On-hand quantity minus reserved quantity.
+- **Fulfilled:** Quantity that has left the relevant stock location through a confirmed shipment or the documented equivalent.
+- **Incoming:** Optional quantity expected from purchase orders or stock transfers, not necessarily sellable yet.
+
+Do not mix expected incoming stock with available sellable stock unless the application explicitly supports preorders or backorders.
+
+### 7.2 Stock receiving
+
+A stock receipt should:
+
+1. Authenticate and authorize the operator.
+2. Validate the SKU, location, and quantity.
+3. Check the associated reference, such as a receipt record, when supported.
+4. Create an inventory movement.
+5. Update the inventory balance within a transaction.
+6. Record the actor and reason.
+7. Return the resulting balance.
+
+Repeating the same logical receipt request must not accidentally add the same stock twice. Use an idempotency key or an equivalent reference-based deduplication strategy.
+
