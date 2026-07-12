@@ -570,3 +570,28 @@ A stock receipt should:
 
 Repeating the same logical receipt request must not accidentally add the same stock twice. Use an idempotency key or an equivalent reference-based deduplication strategy.
 
+### 7.3 Stock reservations
+
+An eligible order may reserve inventory before fulfillment.
+
+Reservation should:
+
+- Verify order eligibility.
+- Determine the relevant SKU and stock location.
+- Confirm sufficient available quantity.
+- Reserve stock atomically.
+- Record the inventory movement and allocation.
+- Update the order's operational state according to its current stage.
+
+Concurrent order creation must not over-reserve inventory.
+
+The inventory service must use an appropriate database transaction, row lock, conditional update, or equivalent concurrency-safe mechanism. A separate availability check followed by an unprotected update is not sufficient.
+
+### 7.4 Reservation release
+
+Release reserved stock when a supported workflow requires it, such as an eligible cancellation or an explicitly defined reservation-expiration process.
+
+The release must be idempotent. A retry must not release the same quantity twice.
+
+Do not release stock merely because a delayed event is received. Verify the current order and reservation state before applying the movement.
+
