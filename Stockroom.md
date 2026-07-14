@@ -595,3 +595,36 @@ The release must be idempotent. A retry must not release the same quantity twice
 
 Do not release stock merely because a delayed event is received. Verify the current order and reservation state before applying the movement.
 
+### 7.5 Shipment and stock deduction
+
+When an eligible fulfillment is confirmed as shipped:
+
+1. Verify the order and fulfillment state.
+2. Verify the relevant stock allocation.
+3. Confirm the quantities being fulfilled.
+4. Deduct the appropriate on-hand and reserved amounts.
+5. Record inventory movements.
+6. Update fulfillment and order state.
+7. Write audit and event records.
+
+Use a transaction to keep the inventory changes and corresponding internal state consistent.
+
+Do not deduct stock twice when a shipping webhook or staff request is retried.
+
+### 7.6 Inventory adjustments
+
+Authorized inventory managers should be able to perform controlled stock adjustments.
+
+Require:
+
+- SKU
+- Location
+- Quantity change
+- Reason
+- Actor identity
+- Reference or supporting note where appropriate
+
+High-impact adjustments may require additional approval according to the configured policy.
+
+An adjustment must generate an inventory movement and audit record. Do not permit direct, unexplained overwriting of stock balances through an ordinary CRUD endpoint.
+
