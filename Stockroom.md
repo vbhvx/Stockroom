@@ -628,3 +628,31 @@ High-impact adjustments may require additional approval according to the configu
 
 An adjustment must generate an inventory movement and audit record. Do not permit direct, unexplained overwriting of stock balances through an ordinary CRUD endpoint.
 
+### 7.7 Multi-location inventory
+
+If multiple warehouses are supported, each stock balance must be location-specific.
+
+A stock transfer should produce linked outgoing and incoming movements, with an explicit transfer state if the application needs to represent stock in transit.
+
+For example:
+
+`requested → in_transit → received`
+
+Do not mark stock as received at the destination before the receiving operation has been confirmed.
+
+### 7.8 Reconciliation
+
+Provide a reconciliation workflow that compares calculated inventory state with stored inventory balances.
+
+For each SKU and location, compare:
+
+- Current balance
+- Ledger-derived balance
+- Active reservations
+- Outstanding fulfillment allocations
+- Recent movements
+
+Flag discrepancies for investigation rather than silently correcting them.
+
+If a repair is authorized, record a compensating movement with an explicit reason and preserve the original discrepancy evidence.
+
