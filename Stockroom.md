@@ -656,3 +656,33 @@ Flag discrepancies for investigation rather than silently correcting them.
 
 If a repair is authorized, record a compensating movement with an explicit reason and preserve the original discrepancy evidence.
 
+### 7.9 Inventory acceptance tests
+
+Verify that:
+
+- Stock receipts update the correct location.
+- Concurrent reservations cannot exceed available stock.
+- Repeated requests do not create duplicate movements.
+- Canceled orders release only their own eligible reservations.
+- A shipment reduces stock at most once.
+- Invalid cross-location movements are rejected.
+- Negative stock cannot appear through ordinary operations unless explicitly supported.
+- Ledger and balance totals can be reconciled.
+- Every adjustment has a traceable actor and reason.
+
+## 8. Order Management and Lifecycle
+
+### 8.1 Order lifecycle
+
+Define explicit operational states. A proposed initial order lifecycle is:
+
+`pending → confirmed → processing → fulfilled`
+
+with appropriate terminal or exceptional states such as:
+
+`cancelled`, `partially_fulfilled`, `on_hold`
+
+These values are a starting point, not a universal mandatory sequence. Adapt them to the actual payment and fulfillment model.
+
+Validate transitions on the server. Do not permit a canceled order to become fulfilled merely because a user changed a status field.
+
