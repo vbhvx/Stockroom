@@ -686,3 +686,33 @@ These values are a starting point, not a universal mandatory sequence. Adapt the
 
 Validate transitions on the server. Do not permit a canceled order to become fulfilled merely because a user changed a status field.
 
+### 8.2 Separate order, payment, and fulfillment states
+
+An order's operational state must not be used as a substitute for payment status or fulfillment status.
+
+For example:
+
+- An order may be confirmed but unpaid under an allowed payment method.
+- A payment may be authorized while fulfillment has not started.
+- A payment may be captured while part of the order remains unfulfilled.
+- A fulfillment may be shipped while a separate refund is pending.
+- An order may have multiple payment attempts, including failed attempts.
+
+Keep these state machines separate and define the allowed combinations and transitions.
+
+### 8.3 Order creation
+
+When creating an order:
+
+1. Authenticate and authorize the request.
+2. Validate store, SKU, currency, and order-line inputs.
+3. Resolve the current eligible variant and price.
+4. Create price and product snapshots for the order lines.
+5. Calculate totals using exact arithmetic.
+6. Apply applicable discounts, taxes, and shipping charges only when those features are implemented.
+7. Reserve inventory according to the defined order and payment policy.
+8. Persist the order, lines, reservations, and relevant audit or event records transactionally where appropriate.
+9. Return the persisted order representation.
+
+Do not trust a client-submitted total or price when the server can calculate or verify it.
+
