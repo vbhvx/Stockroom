@@ -716,3 +716,33 @@ When creating an order:
 
 Do not trust a client-submitted total or price when the server can calculate or verify it.
 
+### 8.4 Order cancellation
+
+Cancellation must verify:
+
+- The current order status.
+- Whether fulfillment has started or completed.
+- Whether payment was authorized or captured.
+- Whether stock is reserved, shipped, or otherwise allocated.
+- Whether a refund or additional financial action is required.
+
+Release eligible unshipped reservations exactly once.
+
+If payment was already captured, cancellation must not falsely imply that the money has been returned. Track any refund through a separate payment workflow.
+
+### 8.5 Order history
+
+Provide an order timeline showing important transitions, including:
+
+- Order creation
+- Confirmation
+- Inventory reservation
+- Payment updates
+- Hold and release events
+- Fulfillment allocation
+- Shipment confirmation
+- Cancellation
+- Refund initiation and result
+
+Each event should identify its actor or originating system, timestamp, and relevant reference.
+
