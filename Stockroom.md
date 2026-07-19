@@ -746,3 +746,22 @@ Provide an order timeline showing important transitions, including:
 
 Each event should identify its actor or originating system, timestamp, and relevant reference.
 
+## 9. Payment Processing and Reconciliation
+
+Payment operations require particularly careful handling because external systems may respond asynchronously, time out, or deliver duplicate webhook events.
+
+### 9.1 Provider abstraction
+
+Define an internal payment-provider interface with operations appropriate to the chosen integration, such as:
+
+- Create or initiate a payment.
+- Retrieve payment status.
+- Capture an authorized payment when supported.
+- Initiate a refund.
+- Verify an incoming provider event.
+- Normalize provider responses into internal statuses.
+
+Implement only the operations supported by the selected provider. Do not invent provider capabilities or assume that every provider supports identical authorization, capture, or refund behavior.
+
+Use a clearly labeled test adapter for development when the real provider is unavailable.
+
