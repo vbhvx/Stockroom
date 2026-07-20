@@ -791,3 +791,39 @@ For an eligible payment request:
 
 If an external call times out, do not blindly initiate another charge. First use the provider's supported idempotency and status-retrieval mechanisms to determine the outcome of the original operation.
 
+### 9.4 Webhook verification
+
+For a real provider integration:
+
+- Verify the provider's event signature or equivalent authenticity mechanism.
+- Validate the expected event structure.
+- Store provider event IDs and deduplicate repeated deliveries.
+- Process relevant events idempotently.
+- Check that the event references the correct internal payment and order.
+- Validate amount and currency where those values are included.
+- Apply allowed state transitions.
+- Record processing outcomes and failure reasons.
+- Return the provider's required response according to its documented webhook contract.
+
+Do not trust arbitrary webhook JSON simply because it contains a known-looking order ID.
+
+Never mark an order paid through a public endpoint that accepts an unverified client-supplied boolean such as `paymentSuccessful: true`.
+
+### 9.5 Payment and inventory coordination
+
+Payment and inventory must be coordinated through a documented workflow.
+
+A practical initial flow is:
+
+1. Validate order intent.
+2. Reserve the required stock.
+3. Initiate payment or await an accepted payment method.
+4. Confirm payment through the appropriate authoritative mechanism.
+5. Advance the order state according to the policy.
+6. Release reservations after eligible failures or expiration.
+7. Escalate uncertain payment outcomes for reconciliation rather than releasing stock prematurely when doing so could create inconsistent order handling.
+
+The precise sequence depends on whether payment is authorized, captured immediately, captured at shipment, or collected on delivery.
+
+Do not attempt to treat a database transaction and an external payment call as one atomic transaction. They are separate systems. Use explicit states, idempotent operations, timeouts, reconciliation, and compensating actions.
+
