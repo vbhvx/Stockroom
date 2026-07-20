@@ -765,3 +765,29 @@ Implement only the operations supported by the selected provider. Do not invent 
 
 Use a clearly labeled test adapter for development when the real provider is unavailable.
 
+### 9.2 Payment state
+
+Use a documented internal payment state machine, with states such as:
+
+`pending`, `authorized`, `captured`, `failed`, `cancelled`, `partially_refunded`, `refunded`
+
+The exact states depend on provider capabilities and the chosen payment workflow.
+
+Track the provider's original status separately when useful, along with the normalized internal state.
+
+Never assume a browser redirect, frontend success message, or client-submitted payment status proves that a payment succeeded.
+
+### 9.3 Payment initiation
+
+For an eligible payment request:
+
+1. Validate the order and amount.
+2. Recalculate or verify the amount server-side.
+3. Ensure the requested currency matches the order's payment context.
+4. Create an internal payment attempt with a unique operation reference.
+5. Call the configured provider using an idempotency mechanism where supported.
+6. Store the provider reference and returned status.
+7. Treat asynchronous or uncertain outcomes as pending until authoritative confirmation is available.
+
+If an external call times out, do not blindly initiate another charge. First use the provider's supported idempotency and status-retrieval mechanisms to determine the outcome of the original operation.
+
