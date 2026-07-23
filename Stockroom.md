@@ -827,3 +827,50 @@ The precise sequence depends on whether payment is authorized, captured immediat
 
 Do not attempt to treat a database transaction and an external payment call as one atomic transaction. They are separate systems. Use explicit states, idempotent operations, timeouts, reconciliation, and compensating actions.
 
+### 9.6 Refunds
+
+A refund request should:
+
+1. Verify the caller's refund permission.
+2. Validate the order and payment relationship.
+3. Check the refundable balance.
+4. Validate amount and currency.
+5. Create an internal refund record.
+6. Initiate the provider operation using a suitable idempotency mechanism.
+7. Track the authoritative provider outcome.
+8. Update normalized payment and order financial summaries as appropriate.
+9. Record an audit event.
+
+Prevent duplicate refunds for the same logical request.
+
+A requested refund is not the same as a completed refund. Display pending, successful, failed, or uncertain outcomes accurately.
+
+Support partial refunds only if the underlying provider and order rules permit them.
+
+### 9.7 Payment reconciliation
+
+Provide a workflow to identify discrepancies between internal records and authoritative provider data.
+
+Examples include:
+
+- A provider reports success, but the internal payment remains pending.
+- A webhook was rejected or not processed.
+- A refund result is unknown after a timeout.
+- The captured amount does not match the expected amount.
+- The internal order and provider reference do not agree.
+
+Reconciliation must not silently overwrite financial records. Record the discrepancy, compare evidence, apply only allowed transitions, and retain an audit trail.
+
+### 9.8 Payment security
+
+- Never store raw card numbers or card security codes.
+- Use provider-hosted payment collection or appropriately scoped provider tokenization where relevant.
+- Store only the payment references and information needed for legitimate operations.
+- Keep provider secrets on the server or in a managed secrets store.
+- Redact credentials and sensitive payment data from logs.
+- Restrict refund and payment-management permissions.
+- Use TLS for external communication.
+- Document any sensitive data retention and payment compliance responsibilities accurately.
+
+Do not claim payment compliance certification merely because an external gateway is used.
+
