@@ -874,3 +874,15 @@ Reconciliation must not silently overwrite financial records. Record the discrep
 
 Do not claim payment compliance certification merely because an external gateway is used.
 
+## 10. Fulfillment Workflow
+
+### 10.1 Fulfillment states
+
+Define an explicit fulfillment state machine, such as:
+
+`pending → picking → packed → shipped → delivered`
+
+with supported exceptional states such as `cancelled` or `failed`.
+
+Do not treat order status, payment status, and fulfillment status as interchangeable.
+
