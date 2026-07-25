@@ -886,3 +886,27 @@ with supported exceptional states such as `cancelled` or `failed`.
 
 Do not treat order status, payment status, and fulfillment status as interchangeable.
 
+### 10.2 Picking
+
+A picking operation should:
+
+- Identify eligible order lines.
+- Verify stock allocations and location.
+- Record picked quantities.
+- Handle shortages explicitly.
+- Prevent picking more than the eligible ordered quantity.
+- Record actor and timestamp.
+
+For a partial pick, preserve the unfulfilled remainder rather than silently marking the entire order as ready to ship.
+
+### 10.3 Packing and dispatch
+
+Before dispatch:
+
+- Confirm the eligible fulfillment quantities.
+- Validate the fulfillment state.
+- Record package and shipping details where supported.
+- Verify the relevant stock allocation.
+- Ensure that shipping confirmation is idempotent.
+- Record the fulfillment transition and inventory movements together where appropriate.
+
