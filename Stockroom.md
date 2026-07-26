@@ -910,3 +910,24 @@ Before dispatch:
 - Ensure that shipping confirmation is idempotent.
 - Record the fulfillment transition and inventory movements together where appropriate.
 
+### 10.4 Tracking
+
+When shipping integration is implemented, store carrier references and tracking information.
+
+A carrier tracking update should be verified or obtained through the relevant authorized integration. Do not treat a manually entered tracking string as proof of delivery.
+
+### 10.5 Fulfillment exceptions
+
+Provide a way for staff to flag and resolve issues, such as:
+
+- Insufficient stock
+- Damaged items
+- Missing SKU
+- Incomplete picking
+- Shipping address issue
+- Carrier error
+- Duplicate fulfillment event
+- Failed delivery
+
+An exception should capture its status, owner if assigned, reason, and resolution history.
+
