@@ -931,3 +931,15 @@ Provide a way for staff to flag and resolve issues, such as:
 
 An exception should capture its status, owner if assigned, reason, and resolution history.
 
+### 10.6 Returns and restocking
+
+Returns and reverse logistics may be added as a defined extension.
+
+If supported, separate the return request, physical receipt, condition inspection, restocking decision, and refund outcome.
+
+Do not automatically restore returned products to sellable stock when the physical condition has not been verified or when the business policy requires inspection.
+
+A return receipt and a financial refund are separate operations and should have separate state histories.
+
+## 11. Staff Roles and Access Control
+
