@@ -943,3 +943,57 @@ A return receipt and a financial refund are separate operations and should have 
 
 ## 11. Staff Roles and Access Control
 
+### 11.1 Initial roles
+
+| Role | Typical permissions |
+|---|---|
+| Owner | Full organization control and ownership management |
+| Admin | Manage staff, settings, catalog, and operations within policy |
+| Catalog Manager | Manage products, variants, and catalog pricing |
+| Inventory Manager | Receive stock, manage adjustments, transfers, and reconciliation |
+| Order Manager | Manage order operations and permitted order transitions |
+| Fulfillment Staff | Pick, pack, and dispatch eligible orders |
+| Finance Staff | View payments and initiate or approve permitted refunds |
+| Support Staff | View permitted order information and add authorized support notes |
+| Viewer | Read permitted operational information without modifying it |
+
+Implement the precise permission matrix in a centralized authorization layer. The table provides role intentions, not a substitute for defining individual permission decisions.
+
+Avoid granting every employee broad Admin access.
+
+### 11.2 Permission granularity
+
+Define policies such as:
+
+- `canManageCatalog`
+- `canChangePrice`
+- `canReceiveStock`
+- `canAdjustInventory`
+- `canManageReservations`
+- `canViewOrder`
+- `canCancelOrder`
+- `canInitiateRefund`
+- `canApproveRefund`
+- `canDispatchFulfillment`
+- `canManageStaff`
+- `canViewAuditHistory`
+- `canExportData`
+
+Where operational risk justifies it, support approval rules for high-value refunds, large stock adjustments, or sensitive permission changes.
+
+The permission system must explicitly handle self-demotion, staff removal, and the final Owner of an organization.
+
+### 11.3 Sensitive actions
+
+Require suitable authentication and authorization for:
+
+- Refund initiation or approval
+- Manual inventory adjustments
+- Product pricing changes
+- Staff role changes
+- Organization settings changes
+- Exporting sensitive operational data
+- Canceling or overriding advanced order states
+
+Audit all sensitive actions, including failed authorization attempts where useful.
+
