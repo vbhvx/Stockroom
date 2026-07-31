@@ -997,3 +997,24 @@ Require suitable authentication and authorization for:
 
 Audit all sensitive actions, including failed authorization attempts where useful.
 
+### 11.4 Tenant isolation
+
+A user authorized in one organization or store must not gain access to another through a crafted ID or API request.
+
+Apply organization and store scoping to:
+
+- Database reads and writes
+- Search and autocomplete
+- Bulk imports and exports
+- Background jobs
+- Payment records
+- Inventory movements
+- Audit history
+- Notifications and webhooks
+
+Background processing must carry a verified internal tenant context rather than trusting arbitrary organization identifiers from external payloads.
+
+## 12. Auditability and Traceability
+
+Audit history is a core business requirement.
+
