@@ -1018,3 +1018,38 @@ Background processing must carry a verified internal tenant context rather than 
 
 Audit history is a core business requirement.
 
+### 12.1 Actions to record
+
+At minimum, record:
+
+- Product creation and updates
+- SKU or barcode changes
+- Price changes
+- Stock receipts and adjustments
+- Inventory reservation and release
+- Stock transfers
+- Order creation and state transitions
+- Order cancellation
+- Payment state changes
+- Refund initiation and outcomes
+- Fulfillment events
+- Staff invitations, removals, and role changes
+- Permission overrides
+- Important configuration changes
+
+### 12.2 Audit event content
+
+Each event should capture:
+
+- Actor or originating system
+- Action
+- Resource type and identifier
+- Organization and store scope
+- Timestamp
+- Relevant before-and-after values
+- Reason, if supplied
+- Request or correlation ID
+- Related external reference, when applicable
+
+Use UTC timestamps for persisted event time, converting them for user display according to the store or user's configured timezone.
+
