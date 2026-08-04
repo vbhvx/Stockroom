@@ -1053,3 +1053,27 @@ Each event should capture:
 
 Use UTC timestamps for persisted event time, converting them for user display according to the store or user's configured timezone.
 
+### 12.3 Audit integrity
+
+Normal application operations should not permit staff to alter the historical audit trail.
+
+Corrections to inventory, order, or payment state should be represented through authorized corrective operations or compensating records rather than deleting evidence of the original event.
+
+Restrict audit access to authorized roles and avoid storing sensitive authentication secrets or prohibited payment data.
+
+Audit history should support questions such as:
+
+- Who changed the price?
+- Why did available inventory decrease?
+- Which action reserved stock for this order?
+- Who canceled the order?
+- What source confirmed payment?
+- Was a refund requested, and what was the provider's final result?
+- Which action changed the fulfillment state?
+
+## 13. API Design and Contracts
+
+Expose a versioned API under `/api/v1`.
+
+Every endpoint must authenticate the caller when required, validate its inputs, enforce the correct organization and store scope, and use documented success and error contracts.
+
