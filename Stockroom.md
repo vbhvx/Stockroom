@@ -1077,3 +1077,29 @@ Expose a versioned API under `/api/v1`.
 
 Every endpoint must authenticate the caller when required, validate its inputs, enforce the correct organization and store scope, and use documented success and error contracts.
 
+### 13.1 Catalog endpoints
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/api/v1/products` | List and filter authorized products |
+| POST | `/api/v1/products` | Create a product |
+| GET | `/api/v1/products/:productId` | Retrieve a product |
+| PATCH | `/api/v1/products/:productId` | Update permitted product fields |
+| POST | `/api/v1/products/:productId/variants` | Create a variant |
+| PATCH | `/api/v1/variants/:variantId` | Update permitted variant fields |
+| GET | `/api/v1/variants/:variantId` | Retrieve variant details |
+
+### 13.2 Inventory endpoints
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/api/v1/inventory` | Query current inventory |
+| GET | `/api/v1/inventory/:variantId` | Retrieve scoped inventory details |
+| POST | `/api/v1/inventory/receipts` | Receive stock |
+| POST | `/api/v1/inventory/adjustments` | Record an authorized stock adjustment |
+| POST | `/api/v1/inventory/transfers` | Initiate a stock transfer if supported |
+| GET | `/api/v1/inventory/movements` | Query inventory history |
+| POST | `/api/v1/inventory/reconciliation` | Run a reconciliation operation |
+
+Reconciliation should ordinarily be a controlled job or preview operation. Do not expose an endpoint that silently rewrites balances to match an unverified expected value.
+
