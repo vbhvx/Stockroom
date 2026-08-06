@@ -1103,3 +1103,29 @@ Every endpoint must authenticate the caller when required, validate its inputs, 
 
 Reconciliation should ordinarily be a controlled job or preview operation. Do not expose an endpoint that silently rewrites balances to match an unverified expected value.
 
+### 13.3 Order endpoints
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/api/v1/orders` | List and filter orders |
+| POST | `/api/v1/orders` | Create an eligible order |
+| GET | `/api/v1/orders/:orderId` | Retrieve order details |
+| POST | `/api/v1/orders/:orderId/confirm` | Confirm an eligible order |
+| POST | `/api/v1/orders/:orderId/cancel` | Cancel an eligible order |
+| GET | `/api/v1/orders/:orderId/activity` | Retrieve order history |
+
+Use explicit action endpoints or well-defined transition schemas for sensitive state changes rather than allowing unrestricted status assignment.
+
+### 13.4 Payment endpoints
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/api/v1/orders/:orderId/payments` | List authorized payment records |
+| POST | `/api/v1/orders/:orderId/payments` | Create a payment attempt |
+| GET | `/api/v1/payments/:paymentId` | Retrieve payment details |
+| POST | `/api/v1/payments/:paymentId/refunds` | Initiate a permitted refund |
+| GET | `/api/v1/refunds/:refundId` | Retrieve refund status |
+| POST | `/api/v1/webhooks/payments/:provider` | Receive provider events |
+
+Provider webhooks may use a provider-specific authentication mechanism rather than a staff session. Verify signatures and event authenticity according to the provider's documented contract.
+
