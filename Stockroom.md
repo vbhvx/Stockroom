@@ -1129,3 +1129,47 @@ Use explicit action endpoints or well-defined transition schemas for sensitive s
 
 Provider webhooks may use a provider-specific authentication mechanism rather than a staff session. Verify signatures and event authenticity according to the provider's documented contract.
 
+### 13.5 Fulfillment endpoints
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/api/v1/orders/:orderId/fulfillments` | List fulfillments |
+| POST | `/api/v1/orders/:orderId/fulfillments` | Create an eligible fulfillment |
+| GET | `/api/v1/fulfillments/:fulfillmentId` | Retrieve fulfillment details |
+| POST | `/api/v1/fulfillments/:fulfillmentId/pick` | Record picking progress |
+| POST | `/api/v1/fulfillments/:fulfillmentId/pack` | Mark eligible goods packed |
+| POST | `/api/v1/fulfillments/:fulfillmentId/ship` | Confirm dispatch |
+| POST | `/api/v1/fulfillments/:fulfillmentId/deliver` | Record delivery when supported |
+
+These endpoints are proposed contracts. Implement and document only the workflows selected for the actual product.
+
+### 13.6 Staff and audit endpoints
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/api/v1/staff` | List permitted staff |
+| POST | `/api/v1/staff/invitations` | Invite staff |
+| PATCH | `/api/v1/staff/:membershipId` | Change permitted membership details |
+| DELETE | `/api/v1/staff/:membershipId` | Remove staff access |
+| GET | `/api/v1/audit-events` | Query authorized audit events |
+| GET | `/api/v1/reports/operations` | Retrieve operational summaries |
+
+### 13.7 Request validation
+
+Validate:
+
+- Path parameters
+- Query parameters
+- Request bodies
+- Currency codes
+- Monetary amounts
+- Quantities
+- SKU identifiers
+- State transitions
+- Idempotency keys
+- External provider references
+- Dates and timestamps
+- Staff permissions
+
+Do not allow ordinary clients to overwrite server-managed fields such as organization ownership, audit metadata, captured payment amounts, or inventory balances.
+
