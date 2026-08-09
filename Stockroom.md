@@ -1173,3 +1173,47 @@ Validate:
 
 Do not allow ordinary clients to overwrite server-managed fields such as organization ownership, audit metadata, captured payment amounts, or inventory balances.
 
+### 13.8 Consistent responses
+
+Use a predictable response envelope.
+
+Example:
+
+```json
+{
+  "data": {
+    "id": "order_example",
+    "orderStatus": "processing",
+    "currency": "INR",
+    "totalMinor": 129900,
+    "createdAt": "2026-10-25T12:00:00.000Z"
+  }
+}
+```
+
+This is an illustrative response with example values, not an actual transaction record.
+
+Use a documented error envelope, including a stable error code and request ID where appropriate.
+
+Apply HTTP status codes consistently for successful requests, validation failures, missing authentication, forbidden operations, missing or concealed resources, state conflicts, rate limits, and unexpected failures.
+
+Do not expose stack traces, raw database errors, payment-provider secrets, or sensitive transaction details in public-facing error messages.
+
+### 13.9 API documentation
+
+Maintain an OpenAPI 3.x specification covering:
+
+- Endpoints and methods
+- Authentication requirements
+- Role and permission requirements
+- Request and response schemas
+- Business validation rules
+- Order and payment state transitions
+- Inventory movement semantics
+- Idempotency behavior
+- Webhook security and processing
+- Error responses
+- Pagination and filtering
+
+Validate the specification in CI where practical and keep it synchronized with the actual implementation.
+
