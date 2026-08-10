@@ -1217,3 +1217,20 @@ Maintain an OpenAPI 3.x specification covering:
 
 Validate the specification in CI where practical and keep it synchronized with the actual implementation.
 
+## 14. Frontend and Operations Dashboard
+
+### 14.1 Dashboard overview
+
+Provide an operational dashboard showing useful metrics and exceptions, such as:
+
+- Orders requiring action
+- Orders awaiting fulfillment
+- Low-stock products
+- Recent inventory movements
+- Pending or failed payment operations
+- Refunds awaiting resolution
+- Fulfillment exceptions
+- Recent staff activity, where authorized
+
+Label metrics clearly and derive them from real persisted records. Do not present hard-coded sample values as live operational data.
+
