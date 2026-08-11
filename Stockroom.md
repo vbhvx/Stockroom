@@ -1234,3 +1234,25 @@ Provide an operational dashboard showing useful metrics and exceptions, such as:
 
 Label metrics clearly and derive them from real persisted records. Do not present hard-coded sample values as live operational data.
 
+### 14.2 Catalog interface
+
+Provide:
+
+- Searchable product table
+- Variant and SKU management
+- Editable pricing fields
+- Status controls
+- Product detail view
+- Inventory availability indicators
+- Clear validation errors
+
+Do not imply that product activation guarantees stock availability. Catalog status and inventory status represent different facts.
+
+### 14.3 Inventory interface
+
+Display on-hand, reserved, and available quantities separately.
+
+Offer scoped views by SKU and location. Provide controlled operations for receiving stock, adjustments, and transfers where supported.
+
+Every inventory adjustment should display its reason and resulting balance.
+
