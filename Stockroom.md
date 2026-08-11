@@ -1256,3 +1256,33 @@ Offer scoped views by SKU and location. Provide controlled operations for receiv
 
 Every inventory adjustment should display its reason and resulting balance.
 
+### 14.4 Order workspace
+
+Provide:
+
+- Search and filtering
+- Order detail and line-item view
+- Current order status
+- Payment status and transaction references
+- Fulfillment status and tracking information
+- Relevant activity timeline
+- Authorized cancellation or exception actions
+
+Keep financial and fulfillment states separate and visually distinguish them.
+
+### 14.5 Payment and refund interface
+
+Clearly distinguish:
+
+- Payment requested
+- Payment pending
+- Payment authorized
+- Payment captured
+- Payment failed
+- Refund requested
+- Refund pending
+- Refund completed
+- Refund failed or uncertain
+
+Do not show a success indicator until the authoritative state supports that conclusion.
+
