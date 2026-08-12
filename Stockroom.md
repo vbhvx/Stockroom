@@ -1286,3 +1286,17 @@ Clearly distinguish:
 
 Do not show a success indicator until the authoritative state supports that conclusion.
 
+### 14.6 Permission-aware user experience
+
+Hide or disable controls the current user cannot use, but continue enforcing authorization on the backend.
+
+Provide understandable explanations for permission denials and validation errors without revealing sensitive information.
+
+Confirm high-impact actions, such as inventory adjustments, cancellations, and refunds, before execution.
+
+### 14.7 Accessibility and responsive behavior
+
+Support keyboard navigation, readable status labels, sufficient contrast, accessible form errors, and responsive layouts.
+
+Critical workflows such as order lookup, receiving stock, and checking payment status should remain practical on smaller screens.
+
