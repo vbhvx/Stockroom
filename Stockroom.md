@@ -1300,3 +1300,24 @@ Support keyboard navigation, readable status labels, sufficient contrast, access
 
 Critical workflows such as order lookup, receiving stock, and checking payment status should remain practical on smaller screens.
 
+## 15. Security and Privacy Requirements
+
+### 15.1 Authentication and sessions
+
+- Use a maintained authentication library.
+- Protect staff-only endpoints.
+- Configure session expiration and invalidation.
+- Apply appropriate cookie security and CSRF protection where relevant to the authentication design.
+- Rate-limit sensitive authentication operations.
+- Never log credentials or session secrets.
+
+### 15.2 Authorization
+
+- Enforce permissions on every protected operation.
+- Scope data reads and writes to authorized organizations and stores.
+- Prevent insecure direct object reference vulnerabilities.
+- Enforce approval policies for sensitive operations where configured.
+- Ensure removed staff lose access on subsequent protected requests.
+- Avoid trusting client-supplied role or ownership fields.
+- Authorize access to exports, payment details, inventory history, and audit events separately where necessary.
+
