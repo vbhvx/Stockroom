@@ -1321,3 +1321,23 @@ Critical workflows such as order lookup, receiving stock, and checking payment s
 - Avoid trusting client-supplied role or ownership fields.
 - Authorize access to exports, payment details, inventory history, and audit events separately where necessary.
 
+### 15.3 Inventory and financial integrity
+
+- Enforce stock invariants through transactions and database constraints.
+- Prevent duplicate inventory movement.
+- Prevent unauthorized manual stock changes.
+- Prevent duplicate payment operations where idempotency is supported.
+- Validate provider events before changing internal financial state.
+- Prevent refund amounts from exceeding the verified refundable amount.
+- Preserve the original evidence of canceled, reversed, or corrected operations.
+
+### 15.4 External integrations
+
+- Store provider credentials in environment secrets or an appropriate secret manager.
+- Verify signatures or equivalent authenticity mechanisms for webhooks.
+- Use bounded retries and request timeouts.
+- Apply appropriate outbound request protections.
+- Validate all external payloads.
+- Avoid using an external event as unquestioned authority over unrelated internal data.
+- Record integration failures and reconciliation outcomes.
+
