@@ -1341,3 +1341,16 @@ Critical workflows such as order lookup, receiving stock, and checking payment s
 - Avoid using an external event as unquestioned authority over unrelated internal data.
 - Record integration failures and reconciliation outcomes.
 
+### 15.5 Database and logging
+
+- Use parameterized database operations or safe ORM queries.
+- Apply foreign-key constraints and suitable isolation strategies.
+- Restrict database privileges to the permissions required by the application.
+- Avoid logging payment credentials, raw authentication headers, and unnecessary personal data.
+- Use request IDs for diagnostic correlation.
+- Configure production CORS narrowly where cross-origin requests are needed.
+- Use TLS for production traffic.
+- Keep development and production configuration separate.
+
+## 16. Reliability, Idempotency, and Failure Recovery
+
