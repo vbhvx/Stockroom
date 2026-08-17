@@ -1354,3 +1354,33 @@ Critical workflows such as order lookup, receiving stock, and checking payment s
 
 ## 16. Reliability, Idempotency, and Failure Recovery
 
+### 16.1 Idempotent mutations
+
+Operations that may be retried must not accidentally repeat business effects.
+
+Examples include:
+
+- Stock receipts
+- Inventory adjustments
+- Stock reservations and releases
+- Shipment confirmation
+- Payment initiation
+- Refund requests
+- Webhook processing
+- External order imports
+
+Use idempotency keys or unique source-event references where appropriate. Store the key with enough context to determine whether the same logical operation has already been processed.
+
+A retry with the same key must return or recover the previous operation's result where supported, rather than performing the action again.
+
+### 16.2 Transaction boundaries
+
+Use database transactions for logically atomic internal operations, such as:
+
+- Reserving inventory and updating the associated order state
+- Posting an inventory movement and updating its balance
+- Confirming a shipment and recording associated stock deductions
+- Committing an order change and its audit/outbox record
+
+External provider calls cannot be rolled back by a PostgreSQL transaction. Use explicit internal states, idempotency, reconciliation, and compensating actions to coordinate across system boundaries.
+
