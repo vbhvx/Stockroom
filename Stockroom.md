@@ -1384,3 +1384,30 @@ Use database transactions for logically atomic internal operations, such as:
 
 External provider calls cannot be rolled back by a PostgreSQL transaction. Use explicit internal states, idempotency, reconciliation, and compensating actions to coordinate across system boundaries.
 
+### 16.3 Outbox and background processing
+
+Use a transactional outbox when important state changes must also publish events or trigger downstream work.
+
+A worker should:
+
+- Claim eligible records safely.
+- Process each event using idempotent handlers.
+- Record attempts and outcomes.
+- Apply bounded retries with appropriate backoff.
+- Route persistent failures to a reviewable failed-job state or dead-letter mechanism.
+- Avoid holding database transactions open during slow external calls.
+
+### 16.4 Timeouts and uncertain outcomes
+
+A request timeout does not prove that an external operation failed.
+
+For example, a timed-out refund request may still have been accepted by the provider.
+
+When the outcome is uncertain:
+
+1. Preserve an explicit pending or uncertain state.
+2. Use provider-supported lookup or idempotency mechanisms.
+3. Process authoritative callbacks or webhooks.
+4. Reconcile the operation.
+5. Avoid initiating duplicate charges, refunds, or stock movements.
+
