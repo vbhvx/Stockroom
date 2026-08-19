@@ -1411,3 +1411,22 @@ When the outcome is uncertain:
 4. Reconcile the operation.
 5. Avoid initiating duplicate charges, refunds, or stock movements.
 
+### 16.5 Inventory invariant checks
+
+Provide a scheduled or on-demand reconciliation process that compares inventory balances to ledger-derived results.
+
+Detect:
+
+- Negative available stock
+- Reserved quantities inconsistent with active reservations
+- Duplicate movements
+- Missing movement references
+- Shipment quantities that exceed eligible allocations
+- Mismatched location or SKU relationships
+
+Report discrepancies with relevant context and do not silently rewrite financial or inventory history.
+
+## 17. Testing Strategy
+
+Testing must verify both ordinary workflows and the failure scenarios that can create financial or inventory inconsistencies.
+
