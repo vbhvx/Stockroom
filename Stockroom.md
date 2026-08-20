@@ -1430,3 +1430,57 @@ Report discrepancies with relevant context and do not silently rewrite financial
 
 Testing must verify both ordinary workflows and the failure scenarios that can create financial or inventory inconsistencies.
 
+### 17.1 Unit tests
+
+Test:
+
+- Catalog validation
+- SKU uniqueness rules
+- Exact monetary arithmetic
+- Order total calculations
+- Order state transitions
+- Payment state transitions
+- Refund limits
+- Inventory availability calculations
+- Reservation and release rules
+- Fulfillment quantity limits
+- Role and permission policies
+- Idempotency semantics
+- Provider status normalization
+
+### 17.2 Integration tests
+
+Use a real test database or an environment that exercises actual database constraints and transaction behavior.
+
+Test:
+
+- Product and variant creation
+- Price updates and historical order snapshots
+- Inventory receipts
+- Concurrent stock reservation
+- Reservation release on cancellation
+- Duplicate receipt and shipment requests
+- Order creation and cancellation
+- Payment attempts and normalized state updates
+- Duplicate and invalid webhooks
+- Refund initiation and retry behavior
+- Partial fulfillment
+- Inventory reconciliation
+- Audit event creation
+- Cross-organization and cross-store isolation
+
+### 17.3 Security tests
+
+Verify that:
+
+1. A staff member cannot access another organization's records without permission.
+2. Staff cannot elevate their own role.
+3. A Viewer cannot perform write operations.
+4. Unauthorized users cannot adjust inventory.
+5. Unauthorized users cannot initiate refunds.
+6. Payment webhooks without valid authentication are rejected.
+7. Crafted requests cannot overwrite server-controlled financial fields.
+8. Search and exports respect organization boundaries.
+9. Removed staff cannot access protected data.
+10. Error messages and logs do not leak secrets or sensitive payment information.
+
