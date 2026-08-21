@@ -1484,3 +1484,38 @@ Verify that:
 9. Removed staff cannot access protected data.
 10. Error messages and logs do not leak secrets or sensitive payment information.
 
+### 17.4 Concurrency and idempotency tests
+
+Verify that:
+
+- Two simultaneous orders cannot reserve more stock than is available.
+- A repeated receipt does not add stock twice.
+- A repeated cancellation does not release the same reservation twice.
+- Repeated shipment events do not deduct stock twice.
+- Duplicate webhooks do not duplicate payment state transitions.
+- A retried refund request does not initiate an unintended second refund.
+- Concurrent inventory adjustments preserve the correct ledger and balance.
+- A failed transaction leaves no partially applied internal operation.
+- An external timeout preserves an uncertain state rather than causing a duplicate operation.
+
+### 17.5 End-to-end tests
+
+Using Playwright or an equivalent tool, verify these full workflows:
+
+1. An Admin creates a product and a sellable variant.
+2. An Inventory Manager receives stock.
+3. The dashboard shows the resulting stock balance.
+4. An eligible order is created.
+5. Inventory is reserved correctly.
+6. The payment workflow enters an appropriate state.
+7. An authorized operator processes fulfillment.
+8. Shipment confirmation changes inventory exactly once.
+9. The order history displays the relevant transitions.
+10. A permitted Finance user initiates a refund.
+11. The refund status reflects the actual result supplied by the payment adapter.
+12. A Viewer is denied inventory adjustment and refund actions.
+13. A second organization cannot access the first organization's records.
+14. An operational failure produces a reviewable error instead of corrupting state.
+
+Use deterministic test adapters for automated tests. A mocked payment provider validates application behavior, not the availability or correctness of a real payment service.
+
