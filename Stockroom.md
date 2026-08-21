@@ -1519,3 +1519,75 @@ Using Playwright or an equivalent tool, verify these full workflows:
 
 Use deterministic test adapters for automated tests. A mocked payment provider validates application behavior, not the availability or correctness of a real payment service.
 
+## 18. Repository Structure
+
+Use a maintainable structure similar to the following, adapted to the selected framework:
+
+```text
+ecommerce-operations/
+├── src/
+│   ├── app/
+│   │   ├── dashboard/
+│   │   ├── catalog/
+│   │   ├── inventory/
+│   │   ├── orders/
+│   │   ├── payments/
+│   │   ├── fulfillment/
+│   │   ├── staff/
+│   │   ├── audit/
+│   │   └── api/
+│   │       └── v1/
+│   ├── components/
+│   ├── features/
+│   │   ├── catalog/
+│   │   ├── inventory/
+│   │   ├── orders/
+│   │   ├── payments/
+│   │   ├── fulfillment/
+│   │   ├── staff/
+│   │   └── audit/
+│   ├── server/
+│   │   ├── auth/
+│   │   ├── authorization/
+│   │   ├── services/
+│   │   ├── repositories/
+│   │   ├── validation/
+│   │   ├── errors/
+│   │   ├── integrations/
+│   │   │   ├── payments/
+│   │   │   └── shipping/
+│   │   └── idempotency/
+│   ├── db/
+│   │   ├── schema/
+│   │   ├── migrations/
+│   │   └── client.ts
+│   └── lib/
+├── workers/
+│   ├── outbox/
+│   ├── payments/
+│   ├── reconciliation/
+│   └── fulfillment/
+├── tests/
+│   ├── unit/
+│   ├── integration/
+│   ├── security/
+│   ├── concurrency/
+│   └── e2e/
+├── docs/
+│   ├── architecture.md
+│   ├── data-model.md
+│   ├── authorization-matrix.md
+│   ├── inventory-invariants.md
+│   ├── payment-lifecycle.md
+│   ├── fulfillment-workflows.md
+│   └── openapi.yaml
+├── scripts/
+├── .env.example
+├── README.md
+└── package.json
+```
+
+Separate provider-specific code from internal payment and fulfillment state machines. Keep inventory calculations and order transitions independently testable.
+
+## 19. Implementation Roadmap
+
