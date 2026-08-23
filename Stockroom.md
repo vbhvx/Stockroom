@@ -1591,3 +1591,26 @@ Separate provider-specific code from internal payment and fulfillment state mach
 
 ## 19. Implementation Roadmap
 
+### Phase 1: Foundation and Access Control
+
+- Inspect the existing repository, framework, dependencies, routes, and scripts.
+- Establish environment configuration and database connectivity.
+- Implement authentication and organization/store membership.
+- Define roles and permission policies.
+- Create schema migrations and initial indexes.
+- Add request validation and consistent error handling.
+- Implement tenant-scoped access and baseline security tests.
+
+**Exit criterion:** Staff can access only the organizations and stores permitted by the backend, and the database schema is reproducible.
+
+### Phase 2: Catalog Management
+
+- Implement products and variants.
+- Enforce SKU uniqueness.
+- Add product status and pricing.
+- Add search, filtering, and pagination.
+- Record important catalog and price changes.
+- Add historical order snapshot support in the data model.
+
+**Exit criterion:** Authorized staff can maintain the catalog without breaking existing inventory or historical order references.
+
