@@ -1614,3 +1614,27 @@ Separate provider-specific code from internal payment and fulfillment state mach
 
 **Exit criterion:** Authorized staff can maintain the catalog without breaking existing inventory or historical order references.
 
+### Phase 3: Inventory Ledger and Reservations
+
+- Implement stock balances and movement records.
+- Add receiving and adjustment workflows.
+- Implement concurrency-safe reservations.
+- Add reservation releases.
+- Introduce movement idempotency.
+- Add inventory reconciliation.
+- Test concurrent reservations and ledger consistency.
+
+**Exit criterion:** Inventory movements are traceable, available stock is calculated consistently, and concurrent requests cannot silently over-reserve inventory.
+
+### Phase 4: Order Management
+
+- Implement order creation and order lines.
+- Calculate and snapshot totals.
+- Add order state transitions.
+- Link orders to inventory reservations.
+- Implement cancellation rules.
+- Add order activity history.
+- Test order and inventory transaction boundaries.
+
+**Exit criterion:** Orders progress through validated states while preserving price snapshots and inventory consistency.
+
