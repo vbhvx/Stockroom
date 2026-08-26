@@ -1638,3 +1638,26 @@ Separate provider-specific code from internal payment and fulfillment state mach
 
 **Exit criterion:** Orders progress through validated states while preserving price snapshots and inventory consistency.
 
+### Phase 5: Payments and Refunds
+
+- Define the provider adapter interface.
+- Implement a clearly labeled test adapter.
+- Add payment attempts and payment state tracking.
+- Implement signature verification and webhook deduplication.
+- Add refund workflow and idempotency.
+- Implement uncertain-outcome handling and reconciliation.
+- Document the supported provider's actual capabilities.
+
+**Exit criterion:** Payment records reflect verified provider outcomes, duplicate events do not duplicate operations, and unknown results are handled safely.
+
+### Phase 6: Fulfillment and Auditability
+
+- Implement picking, packing, and shipment confirmation.
+- Add fulfillment quantity validation.
+- Link shipment events to inventory movements.
+- Implement task and exception handling for operational failures.
+- Add complete audit records for important changes.
+- Test repeat shipment events and partial fulfillment.
+
+**Exit criterion:** Fulfillment and stock deductions remain consistent, and operators can reconstruct relevant operational history.
+
