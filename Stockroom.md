@@ -1661,3 +1661,28 @@ Separate provider-specific code from internal payment and fulfillment state mach
 
 **Exit criterion:** Fulfillment and stock deductions remain consistent, and operators can reconstruct relevant operational history.
 
+### Phase 7: Dashboard and Reporting
+
+- Build the operational dashboard.
+- Add catalog, inventory, order, payment, and fulfillment interfaces.
+- Implement search and filtering.
+- Add permission-aware actions and confirmation dialogs.
+- Show processing, success, failure, and uncertain states clearly.
+- Add reports and exception views based on actual records.
+
+**Exit criterion:** Staff can complete the core workflows through the UI without relying on direct database manipulation or undocumented procedures.
+
+### Phase 8: Hardening and Release
+
+- Run linting, type checking, builds, migrations, and all available tests.
+- Review tenant isolation and sensitive permissions.
+- Test concurrency and idempotency cases.
+- Verify payment webhook handling using the supported provider's test environment where available.
+- Confirm logging and secrets handling.
+- Document setup, deployment, and operational recovery.
+- Produce a factual verification report.
+
+**Exit criterion:** The core workflows are tested, critical data-integrity risks are resolved, and known limitations are documented.
+
+## 20. Acceptance Criteria
+
