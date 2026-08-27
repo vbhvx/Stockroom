@@ -1686,3 +1686,18 @@ Separate provider-specific code from internal payment and fulfillment state mach
 
 ## 20. Acceptance Criteria
 
+### Catalog
+
+- Products and variants can be created and updated by authorized staff.
+- SKU uniqueness is enforced.
+- Price updates do not rewrite historical order totals.
+- Archived products remain interpretable in existing orders and inventory history.
+
+### Inventory
+
+- On-hand, reserved, and available quantities have explicit meanings.
+- Receipts, reservations, releases, adjustments, and shipments create appropriate movements.
+- Concurrent operations preserve inventory invariants.
+- Duplicate requests do not duplicate stock changes.
+- Balance-to-ledger reconciliation can identify discrepancies.
+
