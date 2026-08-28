@@ -1701,3 +1701,18 @@ Separate provider-specific code from internal payment and fulfillment state mach
 - Duplicate requests do not duplicate stock changes.
 - Balance-to-ledger reconciliation can identify discrepancies.
 
+### Orders
+
+- Orders contain consistent line items and monetary snapshots.
+- State transitions are validated.
+- Cancellation follows explicit inventory and payment rules.
+- Order history explains meaningful lifecycle changes.
+
+### Payments
+
+- Payment state follows verified provider results or a clearly defined test adapter.
+- Duplicate webhooks are safely handled.
+- Unknown outcomes are not reported as successful or failed without evidence.
+- Refund amounts and permissions are validated.
+- Sensitive payment credentials are not stored in application data.
+
