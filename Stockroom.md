@@ -1731,3 +1731,36 @@ Separate provider-specific code from internal payment and fulfillment state mach
 - Historical records cannot be silently rewritten through normal application operations.
 - Search, exports, background processing, and integrations respect authorization rules.
 
+### Engineering quality
+
+- Database migrations work from a clean setup.
+- API contracts match the implementation.
+- Unit, integration, security, concurrency, and end-to-end tests cover critical workflows.
+- Configuration and setup instructions are documented.
+- Actual verification results and unresolved issues are reported honestly.
+
+## 21. README and Developer Documentation
+
+The README must include:
+
+- Project purpose and supported operational workflows
+- Architecture diagram
+- Technology stack
+- Prerequisites
+- Environment-variable reference
+- Local setup and startup commands
+- Database creation and migration commands
+- Development, lint, type-check, and build commands
+- Unit, integration, security, concurrency, and end-to-end test commands
+- Inventory data model and ledger invariants
+- Order, payment, and fulfillment state machines
+- Authentication and permission matrix
+- Provider adapter configuration
+- Webhook verification and reconciliation behavior
+- Audit history and data-retention policy
+- Deployment instructions
+- Backup and recovery expectations
+- Known limitations and future improvements
+
+Provide `.env.example` with placeholders. Never commit actual provider secrets, session keys, or production database credentials.
+
