@@ -1716,3 +1716,18 @@ Separate provider-specific code from internal payment and fulfillment state mach
 - Refund amounts and permissions are validated.
 - Sensitive payment credentials are not stored in application data.
 
+### Fulfillment
+
+- Fulfillment quantities cannot exceed eligible quantities.
+- Shipment confirmation updates stock at most once.
+- Partial fulfillment is represented accurately where supported.
+- Exceptions and corrective actions are traceable.
+
+### Security and auditability
+
+- Staff roles are enforced on the backend.
+- Organization and store boundaries are tested.
+- Sensitive operations are audited.
+- Historical records cannot be silently rewritten through normal application operations.
+- Search, exports, background processing, and integrations respect authorization rules.
+
