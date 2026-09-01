@@ -1764,3 +1764,58 @@ The README must include:
 
 Provide `.env.example` with placeholders. Never commit actual provider secrets, session keys, or production database credentials.
 
+## 22. Risks and Trade-offs
+
+**Inventory overselling:** Concurrent orders can reserve the same stock if availability checking and reservation are not atomic. Use transactional inventory updates, constraints, and concurrency tests.
+
+**Duplicate external events:** Providers and external systems may retry callbacks. Use event deduplication, idempotent handlers, and stable provider references.
+
+**Financial uncertainty:** A timeout does not prove a payment or refund failed. Maintain explicit pending or uncertain states and reconcile with authoritative provider data.
+
+**Incorrect historical records:** Editing a product price or deleting a product can make previous orders difficult to understand. Store order snapshots and retain relevant historical references.
+
+**Staff privilege misuse:** Broad permissions can expose sensitive financial and operational controls. Use granular permissions, auditable sensitive actions, and approval policies where appropriate.
+
+**Broken inventory history:** Directly overwriting balances makes discrepancies difficult to explain. Maintain a movement ledger and use compensating records for corrections.
+
+**Partial fulfillment inconsistency:** A shipment may cover only part of an order. Represent fulfilled quantities and remaining obligations explicitly instead of assuming an order is all-or-nothing.
+
+**Premature infrastructure complexity:** Separate microservices and distributed workflows increase operational overhead. Begin with a modular application, PostgreSQL transactions, provider adapters, and durable background processing where needed.
+
+## 23. Final Verification Report
+
+At completion, produce a report containing:
+
+| Area | Required evidence |
+|---|---|
+| Catalog | Product, variant, SKU, and pricing tests |
+| Inventory | Ledger integrity, reservations, adjustments, and reconciliation |
+| Orders | Creation, state transitions, cancellations, and snapshots |
+| Payments | Provider adapter, webhook verification, and idempotency behavior |
+| Refunds | Permission checks, amount validation, and provider outcome tracking |
+| Fulfillment | Picking, packing, shipping, and duplicate-event handling |
+| Staff access | Role matrix and denied-operation tests |
+| Audit history | Recorded actions and traceable corrections |
+| API | Implemented endpoints and documentation status |
+| Testing | Actual commands executed and results |
+| Security | Findings and unresolved risks |
+| Deployment | Actual deployment status and configuration requirements |
+| Final status | Ready for submission, blocked, or incomplete, with evidence |
+
+Clearly distinguish implemented features from planned features. State whether a real provider integration was tested or whether testing used a simulated adapter. Do not claim a successful production transaction when only the internal workflow was tested.
+
+## Final Execution Instruction
+
+Inspect the existing codebase before making changes. Preserve working functionality unless a change is necessary and justified. Implement the platform incrementally, prioritizing inventory correctness, explicit state transitions, secure staff permissions, idempotent operations, and traceable history.
+
+Keep catalog, inventory, order, payment, and fulfillment state models distinct, while defining the transactions and business rules that connect them.
+
+Every inventory adjustment must be explainable. Every order mutation must follow a validated transition. Every payment result must be based on an authoritative provider result or a clearly identified test adapter. Every sensitive staff operation must be authorized and audited.
+
+Do not implement direct balance overwrites as a substitute for inventory movements. Do not assume external payment calls are transactionally atomic with database changes. Do not treat a successful request submission as proof that payment, refund, or shipment has completed.
+
+Before declaring completion, run the actual available linting, type-checking, build, database migration, unit, integration, security, concurrency, and end-to-end commands. Verify the important frontend and backend workflows against the running application wherever possible.
+
+Report failures, limitations, unverified integrations, and unresolved risks honestly.
+
+The final deliverable must demonstrate that e-commerce staff can manage catalog data, maintain accurate inventory, process orders and fulfillment reliably, track financial operations, enforce role-based access, and reconstruct important operational changes from an auditable history.
