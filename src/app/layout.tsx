@@ -4,6 +4,14 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Stockroom | E-Commerce Operations & Inventory SaaS",
   description: "Secure, auditable e-commerce operations, inventory control, and fulfillment platform.",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "32x32" },
+    ],
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 export default function RootLayout({

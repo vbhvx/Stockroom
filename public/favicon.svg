@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="sr-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+    <linearGradient id="sr-border" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2dd4bf" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#0f766e" stop-opacity="0.3" />
+    </linearGradient>
+    <linearGradient id="sr-teal-top" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5eead4" />
+      <stop offset="100%" stop-color="#14b8a6" />
+    </linearGradient>
+    <linearGradient id="sr-teal-mid" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14b8a6" />
+      <stop offset="100%" stop-color="#0d9488" />
+    </linearGradient>
+    <linearGradient id="sr-teal-bot" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d9488" />
+      <stop offset="100%" stop-color="#115e59" />
+    </linearGradient>
+    <filter id="sr-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#14b8a6" flood-opacity="0.35" />
+    </filter>
+  </defs>
+  <rect x="3" y="3" width="58" height="58" rx="16" fill="url(#sr-bg)" stroke="url(#sr-border)" stroke-width="1.5" />
+  <g filter="url(#sr-glow)">
+    <path d="M32 14 L49 22.5 L32 31 L15 22.5 Z" fill="url(#sr-teal-top)" />
+    <path d="M15 22.5 L32 31 L32 35 L15 26.5 Z" fill="#0d9488" opacity="0.7" />
+    <path d="M49 22.5 L32 31 L32 35 L49 26.5 Z" fill="#115e59" opacity="0.8" />
+    <path d="M15 29 L32 37.5 L49 29 L49 32.5 L32 41 L15 32.5 Z" fill="url(#sr-teal-mid)" />
+    <path d="M15 37 L32 45.5 L49 37 L49 40.5 L32 49 L15 40.5 Z" fill="url(#sr-teal-bot)" />
+  </g>
+</svg>
